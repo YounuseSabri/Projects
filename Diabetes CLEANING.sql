@@ -3,8 +3,7 @@
 
 
 
-with cleaned_data as (
-    Select
+with cleaned_data as (Select
         Pregnancies,
         NULLIF(Glucose, 0) as Glucose,
         NULLIF(BloodPressure, 0) as BloodPressure,
@@ -62,10 +61,7 @@ with cleaned_data as (
 
 
 
-Select
-    Age_Group,
-    BMI_Category,
-    Glucose_Category,
+Select Age_Group, BMI_Category, Glucose_Category,
     Count(*) as Total_Patients,
     Sum(Case When Outcome = 1 Then 1 Else 0 End) as Diabetes_Cases,
     
