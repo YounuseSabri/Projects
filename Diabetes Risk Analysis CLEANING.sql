@@ -3,14 +3,14 @@
 
 
 
-WITH cleaned_data AS (
-    SELECT
+with cleaned_data as (
+    Select
         Pregnancies,
-        NULLIF(Glucose, 0) AS Glucose,
-        NULLIF(BloodPressure, 0) AS BloodPressure,
-        NULLIF(SkinThickness, 0) AS SkinThickness,
-        NULLIF(Insulin, 0) AS Insulin,
-        NULLIF(BMI, 0) AS BMI,
+        NULLIF(Glucose, 0) as Glucose,
+        NULLIF(BloodPressure, 0) as BloodPressure,
+        NULLIF(SkinThickness, 0) as SkinThickness,
+        NULLIF(Insulin, 0) as Insulin,
+        NULLIF(BMI, 0) as BMI,
         DiabetesPedigreeFunction,
         Age,
         Outcome,
@@ -22,12 +22,12 @@ WITH cleaned_data AS (
   
   
   
-        CASE
-            WHEN Age < 30 THEN 'Under 30'
-            WHEN Age BETWEEN 30 AND 44 THEN '30-44'
-            WHEN Age BETWEEN 45 AND 59 THEN '45-59'
-            ELSE '60+'
-        END AS Age_Group,
+        Case
+            When Age < 30 Then 'Under 30'
+            When Age BETWEEN 30 AND 44 Then '30-44'
+            When Age BETWEEN 45 AND 59 Then '45-59'
+            Else '60+'
+        End as Age_Group,
   
   
   
@@ -35,12 +35,12 @@ WITH cleaned_data AS (
   
   
   
-        CASE
-            WHEN BMI < 18.5 THEN 'Underweight'
-            WHEN BMI BETWEEN 18.5 AND 24.9 THEN 'Normal'
-            WHEN BMI BETWEEN 25 AND 29.9 THEN 'Overweight'
-            ELSE 'Obese'
-        END AS BMI_Category,
+        Case
+            When BMI < 18.5 Then 'Underweight'
+            When BMI BETWEEN 18.5 AND 24.9 Then 'Normal'
+            When BMI BETWEEN 25 AND 29.9 Then 'Overweight'
+            Else 'Obese'
+        End as BMI_Category,
   
   
   
@@ -48,12 +48,12 @@ WITH cleaned_data AS (
 
   
   
-        CASE
-            WHEN Glucose >= 140 THEN 'High Glucose'
-            WHEN Glucose BETWEEN 100 AND 139 THEN 'Moderate Glucose'
-            ELSE 'Normal Glucose'
-        END AS Glucose_Category
-    FROM diabetes_csv
+        Case
+            When Glucose >= 140 Then 'High Glucose'
+            When Glucose BETWEEN 100 AND 139 Then 'Moderate Glucose'
+            Else 'Normal Glucose'
+        End as Glucose_Category
+    From diabetes_csv
 )
 
 
@@ -62,12 +62,12 @@ WITH cleaned_data AS (
 
 
 
-SELECT
+Select
     Age_Group,
     BMI_Category,
     Glucose_Category,
-    COUNT(*) AS Total_Patients,
-    SUM(CASE WHEN Outcome = 1 THEN 1 ELSE 0 END) AS Diabetes_Cases,
+    Count(*) as Total_Patients,
+    Sum(Case When Outcome = 1 Then 1 Else 0 End) as Diabetes_Cases,
     
     
     
@@ -76,10 +76,10 @@ SELECT
 
     
     
-    ROUND(
-        100.0 * SUM(CASE WHEN Outcome = 1 THEN 1 ELSE 0 END) / COUNT(*),
+    Round(
+        100.0 * Sum(Case When Outcome = 1 Then 1 Else 0 End) / Count(*),
         2      
-    ) AS Diabetes_Rate_Percent,
+    ) as Diabetes_Rate_Percent,
     
     
     
@@ -88,10 +88,10 @@ SELECT
     
     
     
-    ROUND(AVG(Glucose), 2) AS Avg_Glucose,
-    ROUND(AVG(BMI), 2) AS Avg_BMI,
-    ROUND(AVG(BloodPressure), 2) AS Avg_BloodPressure
-FROM cleaned_data
+    Round(Avg(Glucose), 2) as Avg_Glucose,
+    Round(Avg(BMI), 2) as Avg_BMI,
+    Round(Avg(BloodPressure), 2) as Avg_BloodPressure
+From cleaned_data
 
 
 
@@ -99,11 +99,11 @@ FROM cleaned_data
 
 
 
-GROUP BY
+Group By
     Age_Group,
     BMI_Category,
     Glucose_Category
-ORDER BY
+Order BY
     Diabetes_Rate_Percent DESC;
     
 
