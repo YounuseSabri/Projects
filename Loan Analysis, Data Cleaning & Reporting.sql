@@ -1,75 +1,62 @@
-/*
-===============================================================================
+/*===============================================================================
  Project: Loan Data Cleaning & Reporting
  Dataset Table: universalbank_csv
 
  Purpose:
  This SQL project identifies customer banking behavior to identify high-value
  customers, personal loan conversion trends, digital banking adoption, credit
- card usage (In previous years), and cross-sell opportunities.
-
- Why this is useful:
- - Data cleaning
- - KPI reporting
- - Customer segmentation
- - Conversion analysis
- - Business-focused insights
-
- Business Goal:
- Obtaining Kaggle dataset to understand which customer segments are most likely
- to accept personal loans and which groups should be targeted for future marketing.
-===============================================================================
-*/
+ card usage), and cross-sell opportunities.
+=================================================================================*/
 
 
 /*=============================================================================
   1. Preview the Dataset
 =============================================================================*/
 
-SELECT *
-FROM universalbank_csv
-LIMIT 10;
+Select *
+From universalbank_csv
+Limit 10;
 
 
 /*=============================================================================
   2. Check Total Customers and Basic Data Quality
 =============================================================================*/
 
-SELECT 
-    COUNT(*) AS total_customers,
-    COUNT(DISTINCT ID) AS unique_customers,
-    COUNT(*) - COUNT(DISTINCT ID) AS duplicate_customer_records
-FROM universalbank_csv;
+Select 
+    Count(*) As total_customers,
+    Count(Distinct ID) As unique_customers,
+    Count(*) - Count(Distinct ID) As duplicate_customer_records
+From universalbank_csv;
 
 
 /*=============================================================================
   3. Check for Missing or Unusual Values
 =============================================================================*/
 
-SELECT
-    SUM(CASE WHEN ID IS NULL THEN 1 ELSE 0 END) AS missing_id,
-    SUM(CASE WHEN Age IS NULL THEN 1 ELSE 0 END) AS missing_age,
-    SUM(CASE WHEN Experience IS NULL THEN 1 ELSE 0 END) AS missing_experience,
-    SUM(CASE WHEN Income IS NULL THEN 1 ELSE 0 END) AS missing_income,
-    SUM(CASE WHEN CCAvg IS NULL THEN 1 ELSE 0 END) AS missing_ccavg,
-    SUM(CASE WHEN Mortgage IS NULL THEN 1 ELSE 0 END) AS missing_mortgage
-FROM universalbank_csv;
+Select
+    Sum(Case When ID Is NULL Then 1 ELSE 0 END) As missing_id,
+    Sum(Case When Age Is NULL Then 1 ELSE 0 END) As missing_age,
+    Sum(Case When Experience Is NULL Then 1 ELSE 0 END) As missing_experience,
+    Sum(Case When Income Is NULL Then 1 ELSE 0 END) As missing_income,
+    Sum(Case When CCAvg Is NULL Then 1 ELSE 0 END) As missing_ccavg,
+    Sum(Case When Mortgage Is NULL Then 1 ELSE 0 END) As missing_mortgage
+From universalbank_csv;
 
 
 /*=============================================================================
   4. Overall Customer KPI Dashboard
 =============================================================================*/
 
-SELECT
-    COUNT(*) AS total_customers,
-    ROUND(AVG(Age), 2) AS avg_age,
-    ROUND(AVG(Experience), 2) AS avg_experience,
-    ROUND(AVG(Income), 2) AS avg_income,
-    ROUND(AVG(CCAvg), 2) AS avg_credit_card_spend,
-    ROUND(AVG(Mortgage), 2) AS avg_mortgage,
-    SUM("Personal Loan") AS customers_with_personal_loan,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS personal_loan_conversion_rate
-FROM universalbank_csv;
+Select
+    Count(*) As total_customers,
+    Round(Avg(Age), 2) As avg_age,
+    Round(Avg(Experience), 2) As avg_experience,
+    Round(Avg(Income), 2) As avg_income,
+    Round(Avg(CCAvg), 2) As avg_credit_card_spend,
+    Round(Avg(Mortgage), 2) As avg_mortgage,
+    Sum("Personal Loan") As customers_with_personal_loan,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As personal_loan_conversion_rate
+From universalbank_csv;
 
 
 /*=============================================================================
@@ -81,20 +68,20 @@ FROM universalbank_csv;
  3 = Advanced/Professional
 =============================================================================*/
 
-SELECT
+Select
     Education,
-    CASE 
-        WHEN Education = 1 THEN 'Undergraduate'
-        WHEN Education = 2 THEN 'Graduate'
-        WHEN Education = 3 THEN 'Advanced/Professional'
+    Case 
+        When Education = 1 Then 'Undergraduate'
+        When Education = 2 Then 'Graduate'
+        When Education = 3 Then 'Advanced/Professional'
         ELSE 'Unknown'
-    END AS education_level,
-    COUNT(*) AS total_customers,
-    SUM("Personal Loan") AS loan_customers,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS loan_conversion_rate,
-    ROUND(AVG(Income), 2) AS avg_income,
-    ROUND(AVG(CCAvg), 2) AS avg_credit_card_spend
-FROM universalbank_csv
+    END As education_level,
+    Count(*) As total_customers,
+    Sum("Personal Loan") As loan_customers,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As loan_conversion_rate,
+    Round(Avg(Income), 2) As avg_income,
+    Round(Avg(CCAvg), 2) As avg_credit_card_spend
+From universalbank_csv
 GROUP BY Education
 ORDER BY loan_conversion_rate DESC;
 
@@ -103,20 +90,20 @@ ORDER BY loan_conversion_rate DESC;
   6. Creating a Customer Segmentation by Income Group
 =============================================================================*/
 
-SELECT
-    CASE
-        WHEN Income < 50 THEN 'Low Income'
-        WHEN Income BETWEEN 50 AND 99 THEN 'Middle Income'
-        WHEN Income BETWEEN 100 AND 149 THEN 'Upper-Middle Income'
+Select
+    Case
+        When Income < 50 Then 'Low Income'
+        When Income Between 50 And 99 Then 'Middle Income'
+        When Income Between 100 And 149 Then 'Upper-Middle Income'
         ELSE 'High Income'
-    END AS income_segment,
-    COUNT(*) AS total_customers,
-    SUM("Personal Loan") AS loan_customers,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS conversion_rate,
-    ROUND(AVG(Income), 2) AS avg_income,
-    ROUND(AVG(CCAvg), 2) AS avg_credit_card_spend,
-    ROUND(AVG(Mortgage), 2) AS avg_mortgage
-FROM universalbank_csv
+    END As income_segment,
+    Count(*) As total_customers,
+    Sum("Personal Loan") As loan_customers,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As conversion_rate,
+    Round(Avg(Income), 2) As avg_income,
+    Round(Avg(CCAvg), 2) As avg_credit_card_spend,
+    Round(Avg(Mortgage), 2) As avg_mortgage
+From universalbank_csv
 GROUP BY income_segment
 ORDER BY conversion_rate DESC;
 
@@ -125,20 +112,20 @@ ORDER BY conversion_rate DESC;
   7. Age Group Analysis
 =============================================================================*/
 
-SELECT
-    CASE
-        WHEN Age < 30 THEN 'Under 30'
-        WHEN Age BETWEEN 30 AND 39 THEN '30s'
-        WHEN Age BETWEEN 40 AND 49 THEN '40s'
-        WHEN Age BETWEEN 50 AND 59 THEN '50s'
+Select
+    Case
+        When Age < 30 Then 'Under 30'
+        When Age Between 30 And 39 Then '30s'
+        When Age Between 40 And 49 Then '40s'
+        When Age Between 50 And 59 Then '50s'
         ELSE '60+'
-    END AS age_group,
-    COUNT(*) AS total_customers,
-    SUM("Personal Loan") AS loan_customers,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS conversion_rate,
-    ROUND(AVG(Income), 2) AS avg_income,
-    ROUND(AVG(Experience), 2) AS avg_experience
-FROM universalbank_csv
+    END As age_group,
+    Count(*) As total_customers,
+    Sum("Personal Loan") As loan_customers,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As conversion_rate,
+    Round(Avg(Income), 2) As avg_income,
+    Round(Avg(Experience), 2) As avg_experience
+From universalbank_csv
 GROUP BY age_group
 ORDER BY conversion_rate DESC;
 
@@ -147,17 +134,17 @@ ORDER BY conversion_rate DESC;
   8. Digital Banking Adoption Analysis
 =============================================================================*/
 
-SELECT
-    CASE 
-        WHEN Online = 1 THEN 'Online Banking User'
+Select
+    Case 
+        When Online = 1 Then 'Online Banking User'
         ELSE 'Non-Online Banking User'
-    END AS online_banking_status,
-    COUNT(*) AS total_customers,
-    SUM("Personal Loan") AS loan_customers,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS loan_conversion_rate,
-    ROUND(AVG(Income), 2) AS avg_income,
-    ROUND(AVG(CCAvg), 2) AS avg_credit_card_spend
-FROM universalbank_csv
+    END As online_banking_status,
+    Count(*) As total_customers,
+    Sum("Personal Loan") As loan_customers,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As loan_conversion_rate,
+    Round(Avg(Income), 2) As avg_income,
+    Round(Avg(CCAvg), 2) As avg_credit_card_spend
+From universalbank_csv
 GROUP BY Online
 ORDER BY loan_conversion_rate DESC;
 
@@ -169,7 +156,7 @@ ORDER BY loan_conversion_rate DESC;
  a personal loan but may be strong candidates for future marketing campaigns.
 ==================================================================================*/
 
-SELECT
+Select
     ID,
     Age,
     Experience,
@@ -180,17 +167,17 @@ SELECT
     Mortgage,
     Online,
     CreditCard,
-    CASE
-        WHEN Income >= 100 AND CCAvg >= 3 AND Online = 1 THEN 'High Priority'
-        WHEN Income >= 75 AND CCAvg >= 2 THEN 'Medium Priority'
+    Case
+        When Income >= 100 And CCAvg >= 3 And Online = 1 Then 'High Priority'
+        When Income >= 75 And CCAvg >= 2 Then 'Medium Priority'
         ELSE 'Low Priority'
-    END AS marketing_priority
-FROM universalbank_csv
+    END As marketing_priority
+From universalbank_csv
 WHERE "Personal Loan" = 0
 ORDER BY 
-    CASE
-        WHEN Income >= 100 AND CCAvg >= 3 AND Online = 1 THEN 1
-        WHEN Income >= 75 AND CCAvg >= 2 THEN 2
+    Case
+        When Income >= 100 And CCAvg >= 3 And Online = 1 Then 1
+        When Income >= 75 And CCAvg >= 2 Then 2
         ELSE 3
     END,
     Income DESC,
@@ -201,7 +188,7 @@ ORDER BY
   10. Top 25 Highest Value Customers
 =============================================================================*/
 
-SELECT
+Select
     ID,
     Age,
     Income,
@@ -212,49 +199,49 @@ SELECT
     "CD Account",
     Online,
     CreditCard,
-    Income + Mortgage + CCAvg AS customer_value_score
-FROM universalbank_csv
+    Income + Mortgage + CCAvg As customer_value_score
+From universalbank_csv
 ORDER BY customer_value_score DESC
-LIMIT 25;
+Limit 25;
 
 
 /*=============================================================================
   11. Product Usage Analysis
 =============================================================================*/
 
-SELECT
-    COUNT(*) AS total_customers,
-    SUM("Personal Loan") AS personal_loan_customers,
-    SUM("Securities Account") AS securities_account_customers,
-    SUM("CD Account") AS cd_account_customers,
-    SUM(Online) AS online_banking_customers,
-    SUM(CreditCard) AS credit_card_customers,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS personal_loan_pct,
-    ROUND(100.0 * SUM("Securities Account") / COUNT(*), 2) AS securities_account_pct,
-    ROUND(100.0 * SUM("CD Account") / COUNT(*), 2) AS cd_account_pct,
-    ROUND(100.0 * SUM(Online) / COUNT(*), 2) AS online_banking_pct,
-    ROUND(100.0 * SUM(CreditCard) / COUNT(*), 2) AS credit_card_pct
-FROM universalbank_csv;
+Select
+    Count(*) As total_customers,
+    Sum("Personal Loan") As personal_loan_customers,
+    Sum("Securities Account") As securities_account_customers,
+    Sum("CD Account") As cd_account_customers,
+    Sum(Online) As online_banking_customers,
+    Sum(CreditCard) As credit_card_customers,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As personal_loan_pct,
+    Round(100.0 * Sum("Securities Account") / Count(*), 2) As securities_account_pct,
+    Round(100.0 * Sum("CD Account") / Count(*), 2) As cd_account_pct,
+    Round(100.0 * Sum(Online) / Count(*), 2) As online_banking_pct,
+    Round(100.0 * Sum(CreditCard) / Count(*), 2) As credit_card_pct
+From universalbank_csv;
 
 
 /*=============================================================================
   12. Personal Loan Customers vs Non-Loan Customers
 =============================================================================*/
 
-SELECT
-    CASE 
-        WHEN "Personal Loan" = 1 THEN 'Accepted Personal Loan'
+Select
+    Case 
+        When "Personal Loan" = 1 Then 'Accepted Personal Loan'
         ELSE 'Did Not Accept Personal Loan'
-    END AS loan_status,
-    COUNT(*) AS customer_count,
-    ROUND(AVG(Age), 2) AS avg_age,
-    ROUND(AVG(Experience), 2) AS avg_experience,
-    ROUND(AVG(Income), 2) AS avg_income,
-    ROUND(AVG(CCAvg), 2) AS avg_credit_card_spend,
-    ROUND(AVG(Mortgage), 2) AS avg_mortgage,
-    ROUND(100.0 * SUM(Online) / COUNT(*), 2) AS online_banking_rate,
-    ROUND(100.0 * SUM(CreditCard) / COUNT(*), 2) AS credit_card_rate
-FROM universalbank_csv
+    END As loan_status,
+    Count(*) As customer_count,
+    Round(Avg(Age), 2) As avg_age,
+    Round(Avg(Experience), 2) As avg_experience,
+    Round(Avg(Income), 2) As avg_income,
+    Round(Avg(CCAvg), 2) As avg_credit_card_spend,
+    Round(Avg(Mortgage), 2) As avg_mortgage,
+    Round(100.0 * Sum(Online) / Count(*), 2) As online_banking_rate,
+    Round(100.0 * Sum(CreditCard) / Count(*), 2) As credit_card_rate
+From universalbank_csv
 GROUP BY "Personal Loan";
 
 
@@ -262,7 +249,7 @@ GROUP BY "Personal Loan";
   13. Ranking Customers by Income Within Each Education Level
 =============================================================================*/
 
-SELECT
+Select
     ID,
     Education,
     Income,
@@ -272,8 +259,8 @@ SELECT
     RANK() OVER (
         PARTITION BY Education
         ORDER BY Income DESC
-    ) AS income_rank_within_education
-FROM universalbank_csv
+    ) As income_rank_within_education
+From universalbank_csv
 ORDER BY Education, income_rank_within_education;
 
 
@@ -281,7 +268,7 @@ ORDER BY Education, income_rank_within_education;
   14. Find Customers Above Average Income
 =============================================================================*/
 
-SELECT
+Select
     ID,
     Age,
     Income,
@@ -290,10 +277,10 @@ SELECT
     "Personal Loan",
     Online,
     CreditCard
-FROM universalbank_csv
+From universalbank_csv
 WHERE Income > (
-    SELECT AVG(Income)
-    FROM universalbank_csv
+    Select Avg(Income)
+    From universalbank_csv
 )
 ORDER BY Income DESC;
 
@@ -302,16 +289,16 @@ ORDER BY Income DESC;
   15. ZIP Code Market Opportunity Analysis
 =============================================================================*/
 
-SELECT
+Select
     "ZIP Code",
-    COUNT(*) AS total_customers,
-    ROUND(AVG(Income), 2) AS avg_income,
-    SUM("Personal Loan") AS loan_customers,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS loan_conversion_rate,
-    ROUND(AVG(Mortgage), 2) AS avg_mortgage
-FROM universalbank_csv
+    Count(*) As total_customers,
+    Round(Avg(Income), 2) As avg_income,
+    Sum("Personal Loan") As loan_customers,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As loan_conversion_rate,
+    Round(Avg(Mortgage), 2) As avg_mortgage
+From universalbank_csv
 GROUP BY "ZIP Code"
-HAVING COUNT(*) >= 5
+HAVING Count(*) >= 5
 ORDER BY loan_conversion_rate DESC, avg_income DESC;
 
 
@@ -322,14 +309,14 @@ ORDER BY loan_conversion_rate DESC, avg_income DESC;
  reports, or portfolio presentations.
 =============================================================================*/
 
-SELECT
-    'Universal Bank Customer Analytics Summary' AS report_name,
-    COUNT(*) AS total_customers,
-    ROUND(AVG(Income), 2) AS avg_customer_income,
-    ROUND(AVG(CCAvg), 2) AS avg_monthly_credit_card_spend,
-    SUM("Personal Loan") AS total_personal_loan_customers,
-    ROUND(100.0 * SUM("Personal Loan") / COUNT(*), 2) AS overall_personal_loan_conversion_rate,
-    SUM(CASE WHEN Income >= 100 AND "Personal Loan" = 0 THEN 1 ELSE 0 END) AS high_income_non_loan_prospects,
-    SUM(CASE WHEN Online = 1 THEN 1 ELSE 0 END) AS online_banking_users,
-    SUM(CASE WHEN CreditCard = 1 THEN 1 ELSE 0 END) AS credit_card_users
-FROM universalbank_csv;
+Select
+    'Universal Bank Customer Analytics Summary' As report_name,
+    Count(*) As total_customers,
+    Round(Avg(Income), 2) As avg_customer_income,
+    Round(Avg(CCAvg), 2) As avg_monthly_credit_card_spend,
+    Sum("Personal Loan") As total_personal_loan_customers,
+    Round(100.0 * Sum("Personal Loan") / Count(*), 2) As overall_personal_loan_conversion_rate,
+    Sum(Case When Income >= 100 And "Personal Loan" = 0 Then 1 ELSE 0 END) As high_income_non_loan_prospects,
+    Sum(Case When Online = 1 Then 1 ELSE 0 END) As online_banking_users,
+    Sum(Case When CreditCard = 1 Then 1 ELSE 0 END) As credit_card_users
+From universalbank_csv;
