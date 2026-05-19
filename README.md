@@ -19,7 +19,7 @@ This portfolio showcases projects in customer analytics, healthcare risk analysi
 
 ##  1) Loan Data Cleaning & Reporting (SQL)
 
-**Goal:** Analyze universal bank customer behavior to identify high-value segments, personal loan trends, and cross-sell opportunities.
+**Goal:** Analyze "Universal Bank" customer behavior to identify high-value segments, personal loan trends, and cross-sell opportunities.
 
 ### Highlights
 - Performed data quality and duplicate checks.
