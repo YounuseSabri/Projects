@@ -13,7 +13,6 @@ This portfolio showcases projects in customer analytics, healthcare risk analysi
 | **Loan Classification Analysis** | Predicting personal loan acceptance | Python, scikit-learn, ANN | Model comparison, classification metrics, ROC AUC evaluation |
 | **Diabetes Cleaning (SQL)** | Data cleaning + categorical risk grouping | SQL | Handling implausible values, age/BMI/glucose feature engineering, diabetes rate analysis |
 | **Diabetes Exploration Analysis** | Healthcare classification modeling | Python, scikit-learn | EDA, missing-value treatment, logistic regression evaluation |
-| **Wine Quality Prediction** | Product quality classification | Python, scikit-learn | EDA, model building, classification performance analysis |
 
 ---
 
