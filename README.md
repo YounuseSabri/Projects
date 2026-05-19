@@ -1,11 +1,11 @@
-#  📊 Business Analytics Portfolio
+#   Business Analytics Portfolio
 
 Hi, I’m Younuse Sabri. I am a student at Montclair State University studying **Business Analytics major** and passionate about turning data into business decisions through **SQL, Python, and Machine Learning**.  
 This portfolio showcases projects in customer analytics, healthcare risk analysis, and predictive modeling.
 
 ---
 
-## 📁 Project Portfolio Summary
+##  Portfolio Summary
 
 | Project | Focus Area | Tools | Key Deliverables |
 |---|---|---|---|
