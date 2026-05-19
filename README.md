@@ -1,4 +1,4 @@
-# 📊 Business Analytics Portfolio
+#   Business Analytics Portfolio
 
 Hi, I’m a **Business Analytics major** passionate about turning data into business decisions through **SQL, Python, and Machine Learning**.  
 This portfolio showcases projects in customer analytics, healthcare risk analysis, and predictive modeling.
